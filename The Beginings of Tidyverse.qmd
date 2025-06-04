@@ -2,9 +2,8 @@
 title: "The Beginnings of Tidyverse"
 author: Alise Miller
 format: pdf
-    code-overflow: wrap
-    code-block-font-size: 9pt  
-    mainfont: "Comic Sans"
+code-overflow: wrap
+mainfont: "Arial"
 editor: visual
 ---
 
