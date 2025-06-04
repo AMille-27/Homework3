@@ -1,0 +1,131 @@
+---
+title: "The Beginnings of Tidyverse"
+author: Alise Miller
+format: pdf
+editor: visual
+---
+
+## Task 1
+### Question a reading in data 1
+```{r}
+library(tidyverse)
+
+data_1 <-read_csv( "data/data.txt")
+data_1
+```
+This has a warning, so I immediately felt like I did something wrong. Looking further into the help feature, read_csv can't be used because the data was seperated with semi-colons, maybe I could try to edit "sep = ". So this means the header is messed up along with the actual data presented. 
+```{r}
+data_1a <-read_csv2("data/data.txt") #makes more appropriate
+data_1a
+```
+
+
+### Question B
+```{r}
+data_2 <- read_delim("data/data2.txt", 
+                     col_names =TRUE, 
+                     delim = "6", 
+                     col_types ="fdc")
+
+data_2
+
+```
+
+
+## Task 2
+### Question a
+```{r}
+
+trailblazer <- read_csv("data/trailblazer.csv")
+glimpse(trailblazer)
+```
+
+### Question b
+```{r}
+trailblazer_long <-
+  trailblazer %>% 
+   pivot_longer(cols = starts_with("game"), 
+               names_to = "Location1", 
+               values_to = "Points")
+trailblazer_longer <- separate(trailblazer_long, 
+         col= Location1, 
+         into = c("Game", "Location"),
+         remove = TRUE)
+
+slice(trailblazer_longer, 1:5)
+
+trailblazer_longer
+```
+
+### Question c 
+```{r}
+#trailblazer_longer |>
+#  group_by(Player,Location) |>
+  #summarize(mean( Points, na.rm = TRUE))
+#mutate() 
+#This is was what I tried to do before reading the bullet points
+
+```
+
+```{r}
+trailblazer_wider <- trailblazer_longer |>
+pivot_wider(names_from = Location, 
+            values_from = Points)
+trailblazer_wider
+
+summary_of_player <- trailblazer_wider |>
+  group_by(Player) |>
+  summarise(mean_home = mean(Home, na.rm = TRUE),
+  mean_away = mean(Away, na.rm = TRUE)
+   )
+summary_of_player
+
+summary_of_player |>
+  mutate(difference = mean_home - mean_away) |>
+  arrange(desc(difference))
+
+```
+According to my work, the players that scored on average, more points at home than away are: Jusuf NUrkic, RObert Covington, Damian Lillard,and Cody Zeller. 
+
+## Task 3
+### Question a
+```{r}
+library(palmerpenguins)
+penguins |>select(species, island, bill_length_mm) |>
+pivot_wider(
+names_from = island, values_from = bill_length_mm
+)
+```
+The <NULL>, <dbl[52]>, and <list> mean to me that an error occured, as if the data is not formatted as my colleague intended. The <list> might indicated that the each column variables are actually lists of numbers. <dbl[52]> means entry: row Adelie and column Torgersen has 52 double or numbers with possible decimals in it. The <NULL> indicates that the entry for example entry row Chinstrap and col Torgersen is not a list or is it empty?
+
+###Question b
+
+```{r}
+#penguins |>select(species, island, bill_length_mm) |>
+  #group_by(species, island) |>
+  #summarise(mean (test= bill_length_mm, na.rm = TRUE)) |>
+  #pivot_wider(names_from = island, 
+  #values_from = bill_length_mm)
+penguins  |>
+  select(island , species) |>
+  count(species, island) |>
+  pivot_wider(names_from = island, 
+              values_from = n,
+              values_fill = 0)
+
+```
+
+## Task 4
+### Question a
+```{r}
+penguins |>
+  select(species, bill_length_mm, island ) |>
+  mutate( bill_length_mm = 
+      case_when(is.na(bill_length_mm) & species == "Adelie" ~ 26, 
+      is.na(bill_length_mm) & species == "Gentoo"~ 30,
+      .default = bill_length_mm
+  )) |>
+arrange(bill_length_mm)
+```
+
+
