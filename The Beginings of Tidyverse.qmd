@@ -2,25 +2,32 @@
 title: "The Beginnings of Tidyverse"
 author: Alise Miller
 format: pdf
+    code-overflow: wrap
+    code-block-font-size: 9pt  
+    mainfont: "Comic Sans"
 editor: visual
 ---
 
 ## Task 1
-### Question a reading in data 1
+
+### Question A (reading in data 1)
+
 ```{r}
 library(tidyverse)
 
 data_1 <-read_csv( "data/data.txt")
 data_1
 ```
-This has a warning, so I immediately felt like I did something wrong. Looking further into the help feature, read_csv can't be used because the data was seperated with semi-colons, maybe I could try to edit "sep = ". So this means the header is messed up along with the actual data presented. 
+
+This has a warning, so I immediately felt like I did something wrong. Looking further into the help feature, read_csv can't be used because the data was separated with semi-colons, maybe I could try to edit "sep = ". So this means the header is messed up along with the actual data presented.
+
 ```{r}
 data_1a <-read_csv2("data/data.txt") #makes more appropriate
 data_1a
 ```
 
-
 ### Question B
+
 ```{r}
 data_2 <- read_delim("data/data2.txt", 
                      col_names =TRUE, 
@@ -31,16 +38,18 @@ data_2
 
 ```
 
-
 ## Task 2
-### Question a
+
+### Question A
+
 ```{r}
 
 trailblazer <- read_csv("data/trailblazer.csv")
 glimpse(trailblazer)
 ```
 
-### Question b
+### Question B
+
 ```{r}
 trailblazer_long <-
   trailblazer %>% 
@@ -57,7 +66,8 @@ slice(trailblazer_longer, 1:5)
 trailblazer_longer
 ```
 
-### Question c 
+### Question C
+
 ```{r}
 #trailblazer_longer |>
 #  group_by(Player,Location) |>
@@ -85,10 +95,13 @@ summary_of_player |>
   arrange(desc(difference))
 
 ```
-According to my work, the players that scored on average, more points at home than away are: Jusuf NUrkic, RObert Covington, Damian Lillard,and Cody Zeller. 
+
+According to my work, the players that scored on average, more points at home than away are: Jusuf Nurkic, Robert Covington, Damian Lillard, and Cody Zeller.
 
 ## Task 3
-### Question a
+
+### Question A
+
 ```{r}
 library(palmerpenguins)
 penguins |>select(species, island, bill_length_mm) |>
@@ -96,9 +109,10 @@ pivot_wider(
 names_from = island, values_from = bill_length_mm
 )
 ```
-The <NULL>, <dbl[52]>, and <list> mean to me that an error occured, as if the data is not formatted as my colleague intended. The <list> might indicated that the each column variables are actually lists of numbers. <dbl[52]> means entry: row Adelie and column Torgersen has 52 double or numbers with possible decimals in it. The <NULL> indicates that the entry for example entry row Chinstrap and col Torgersen is not a list or is it empty?
 
-###Question b
+The <NULL>, \<dbl\[52\]\>, and <list> mean to me that an error occured, as if the data is not formatted as my colleague intended. The <list> might indicated that the each column variables are actually lists of numbers. \<dbl\[52\]\> means entry: row Adelie and column Torgersen has 52 double or numbers with possible decimals in it. The <NULL> indicates that the entry for example entry row Chinstrap and col Torgersen is not a list or is it empty?
+
+### Question B
 
 ```{r}
 #penguins |>select(species, island, bill_length_mm) |>
@@ -116,7 +130,9 @@ penguins  |>
 ```
 
 ## Task 4
-### Question a
+
+### Question A
+
 ```{r}
 penguins |>
   select(species, bill_length_mm, island ) |>
@@ -127,5 +143,3 @@ penguins |>
   )) |>
 arrange(bill_length_mm)
 ```
-
-
